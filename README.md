@@ -13,8 +13,12 @@ Most used Commands
 **Automated Test run** - yarn test <br/>
 **Console** - yarn console <br/>
 
-//hh verify --network bsctestnet 0x4cb85020a66Cfb50C6888e3Ee651789cBe847e47 80000000000 --contract contracts/SoldiersToken.sol:SoldiersToken --show-stack-traces
+//
 
-hh verify --network bsctestnet 0x82a9752804dFd1F33c1B06B3EB2321B3eCBA1cA4 55000000000 --contract contracts/SoldiersPresaleToken.sol:SoldiersPresaleToken --show-stack-traces
+hh verify --network bsctestnet 0x15E925C92A4293ffbF7Ced25C0490b335fFFd33d 25000000000 --contract contracts/SoldiersPresaleToken.sol:SoldiersPresaleToken --show-stack-traces
 
-hh verify --network bsctestnet --constructor-args arguments.js 0x4cb85020a66Cfb50C6888e3Ee651789cBe847e47 --contract contracts/SoldiersToken.sol:SoldiersToken --show-stack-traces
+hh verify --network bsctestnet 0x7511f41E9169141DF74F1b83B7B3c9BD32aB2E1b 80000000000 --contract contracts/SoldiersToken.sol:SoldiersToken --show-stack-traces
+
+hh verify --network bsctestnet 0xF28E89150956e40074f64764791f36794B7C0B0D --contract contracts/test/BUSDToken.sol:BUSDToken --show-stack-traces
+
+hh verify --network bsctestnet --constructor-args arguments.js 0xe6295c50FBC714479f689b307ebdf230a7Ee65Aa --contract contracts/Crowdsale.sol:Crowdsale --show-stack-traces

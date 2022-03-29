@@ -19,6 +19,7 @@ describe('SoldiersToken', () => {
     beforeEach(async function () {
         this.soldiersToken = await this.SoldiersToken.deploy(getBigNumber(80000));
         await this.soldiersToken.deployed();
+        await this.soldiersToken.mint(getBigNumber(80000))
     })
 
     it('name', async function () {
@@ -43,20 +44,18 @@ describe('SoldiersToken', () => {
         expect(await this.soldiersToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(80000))
     })
 
-    // it('burn', async function () {
-    //     await expect(this.soldiersToken.transfer(this.otherWallet.address, getBigNumber(100)))
-    //                                                     .to.emit(this.soldiersToken, 'Transfer')
-    //                                                     .withArgs(this.wallet, this.otherWallet.address, getBigNumber(100))
-    //     expect(await this.soldiersToken.totalSupply()).to.eq(getBigNumber(80000 - 100))
-    //     expect(await this.soldiersToken.balanceOf(this.otherWallet.address)).to.eq(getBigNumber(100))
-    //     await expect(this.soldiersToken.burn(this.otherWallet.address, getBigNumber(50)))
-    //                                                     .to.emit(this.soldiersToken, 'Burn')
-    //                                                     .withArgs(this.otherWallet.address, getBigNumber(50))
-    //                                                     .to.emit(this.soldiersToken, 'Transfer')
-    //                                                     .withArgs(this.otherWallet.address, constants.AddressZero, getBigNumber(50))
-    //     expect(await this.soldiersToken.totalSupply()).to.eq(getBigNumber(50))
-    //     expect(await this.soldiersToken.balanceOf(this.otherWallet.address)).to.eq(getBigNumber(50))
-    // })
+    it('burn', async function () {
+        expect(await this.soldiersToken.transfer(this.otherWallet.address, getBigNumber(100)))
+                                                        .to.emit(this.soldiersToken, 'Transfer')
+                                                        .withArgs(this.wallet, this.otherWallet.address, getBigNumber(100))
+        expect(await this.soldiersToken.totalSupply()).to.eq(getBigNumber(80000))
+        expect(await this.soldiersToken.balanceOf(this.otherWallet.address)).to.eq(getBigNumber(100))
+        expect(await this.soldiersToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(80000 - 100))
+        expect(await this.soldiersToken.burn(this.otherWallet.address, getBigNumber(50)))
+                                                        .to.emit(this.soldiersToken, 'Transfer')
+                                                        .withArgs(this.otherWallet.address, constants.AddressZero, getBigNumber(50))
+        expect(await this.soldiersToken.balanceOf(this.otherWallet.address)).to.eq(getBigNumber(50))
+    })
 
     it('isPaused', async function () {
         expect(await this.soldiersToken.isPaused()).to.false

@@ -16,7 +16,7 @@ async function main() {
   console.log("Network chain id=", chainid);
 
   const SoldiersPresaleToken = await ethers.getContractFactory("SoldiersPresaleToken");
-  const presaleSoldiers = await SoldiersPresaleToken.deploy(getBigNumber(55000));
+  const presaleSoldiers = await SoldiersPresaleToken.deploy(getBigNumber(25000));
   await presaleSoldiers.deployed();
   console.log("Soldiers Presale Token deployed to :", presaleSoldiers.address);
 
@@ -35,6 +35,22 @@ async function main() {
     busdTokenAddress = busd.address;
     console.log("BUSD Test Token deployed to :", busd.address);
   }
+  const wallet = deployer.address;
+  const startTime = 1649615400;
+  const Crowdsale = await ethers.getContractFactory("Crowdsale");
+  const crowdsaleContract = await Crowdsale.deploy(wallet, presaleSoldiers.address, soldiers.address, busdTokenAddress, startTime);
+  await crowdsaleContract.deployed();
+  console.log("Crowdsale Contract deployed to :", crowdsaleContract.address);
+
+  const presaleOwnerTx = await presaleSoldiers.transferOwnership(crowdsaleContract.address);
+  await presaleOwnerTx.wait();
+
+  const saleOwnerTx = await soldiers.transferOwnership(crowdsaleContract.address);
+  await saleOwnerTx.wait();
+
+  const initTx = await crowdsaleContract.__initialize();
+  initTx.wait();
+  console.log("Crowdsale Contract Initialized successfully");
 }
 
 // We recommend this pattern to be able to use async/await everywhere
