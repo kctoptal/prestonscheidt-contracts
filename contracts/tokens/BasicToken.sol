@@ -45,9 +45,9 @@ abstract contract BasicToken is IERC20 {
     */
     function transferFrom(address _from, address _to, uint _value) public override virtual returns (bool success) {
         require(_from != address(0), "Invalid Sender Address");
-        require(allowance[_from][_to] >= _value, "Transfer amount exceeds allowance");
+        require(allowance[_from][msg.sender] >= _value, "Transfer amount exceeds allowance");
         _transfer(_from, _to, _value);
-        allowance[_from][_to] = allowance[_from][_to].sub(_value);
+        allowance[_from][msg.sender] = allowance[_from][msg.sender].sub(_value);
         return true;
     }
 

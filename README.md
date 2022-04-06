@@ -15,10 +15,12 @@ Most used Commands
 
 //
 
-hh verify --network bsctestnet 0x15E925C92A4293ffbF7Ced25C0490b335fFFd33d 25000000000 --contract contracts/SoldiersPresaleToken.sol:SoldiersPresaleToken --show-stack-traces
+hh verify --network bsctestnet 0x662271307571Ad1Ab6C9C5537f1629e680558868 55000000000 --contract contracts/SoldiersPresaleToken.sol:SoldiersPresaleToken --show-stack-traces
 
-hh verify --network bsctestnet 0x7511f41E9169141DF74F1b83B7B3c9BD32aB2E1b 80000000000 --contract contracts/SoldiersToken.sol:SoldiersToken --show-stack-traces
+hh verify --network bsctestnet 0x36d102b4CDe103C389731CcA62b063e61f1960E7 80000000000 --contract contracts/SoldiersToken.sol:SoldiersToken --show-stack-traces
 
 hh verify --network bsctestnet 0xF28E89150956e40074f64764791f36794B7C0B0D --contract contracts/test/BUSDToken.sol:BUSDToken --show-stack-traces
 
-hh verify --network bsctestnet --constructor-args arguments.js 0xe6295c50FBC714479f689b307ebdf230a7Ee65Aa --contract contracts/Crowdsale.sol:Crowdsale --show-stack-traces
+hh verify --network bsctestnet --constructor-args arguments.js 0xcF1225860c6CE1a8Dfa4da6Ea5a09e37F97C1f40 --contract contracts/Crowdsale.sol:Crowdsale --show-stack-traces
+
+hh verify --network bsctestnet --constructor-args argumentsStake.js 0x9D927bC38f0EFc4A008A25f8Fbc3814189449d62 --contract contracts/Stake.sol:Stake --show-stack-traces

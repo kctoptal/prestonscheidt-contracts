@@ -17,9 +17,9 @@ describe('SoldiersPresaleToken', () => {
     })
 
     beforeEach(async function () {
-        this.soldiersPresaleToken = await this.SoldiersPresaleToken.deploy(getBigNumber(25000));
+        this.soldiersPresaleToken = await this.SoldiersPresaleToken.deploy(getBigNumber(55000));
         await this.soldiersPresaleToken.deployed();
-        await this.soldiersPresaleToken.mint(getBigNumber(25000))
+        await this.soldiersPresaleToken.mint(getBigNumber(55000))
     })
 
     it('name', async function () {
@@ -37,20 +37,20 @@ describe('SoldiersPresaleToken', () => {
     it('totalSupply', async function () {
         const totalSupply = await this.soldiersPresaleToken.totalSupply()
         console.log(totalSupply)
-        expect(totalSupply).to.eq(getBigNumber(25000))
+        expect(totalSupply).to.eq(getBigNumber(55000))
     })
 
     it('balanceOf', async function () {
-        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(25000))
+        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(55000))
     })
 
     it('burn', async function () {
         expect(await this.soldiersPresaleToken.transfer(this.otherWallet.address, getBigNumber(100)))
                                                         .to.emit(this.soldiersPresaleToken, 'Transfer')
                                                         .withArgs(this.wallet.address, this.otherWallet.address, getBigNumber(100))
-        expect(await this.soldiersPresaleToken.totalSupply()).to.eq(getBigNumber(25000))
+        expect(await this.soldiersPresaleToken.totalSupply()).to.eq(getBigNumber(55000))
         expect(await this.soldiersPresaleToken.balanceOf(this.otherWallet.address)).to.eq(getBigNumber(100))
-        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(25000 - 100))
+        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(55000 - 100))
         expect(await this.soldiersPresaleToken.burn(this.otherWallet.address, getBigNumber(50)))
                                                         .to.emit(this.soldiersPresaleToken, 'Transfer')
                                                         .withArgs(this.otherWallet.address, constants.AddressZero, getBigNumber(50))
@@ -91,26 +91,26 @@ describe('SoldiersPresaleToken', () => {
         await expect(this.soldiersPresaleToken.transfer(this.otherWallet.address, getBigNumber(100)))
                                                         .to.emit(this.soldiersPresaleToken, 'Transfer')
                                                         .withArgs(this.wallet.address, this.otherWallet.address, getBigNumber(100))
-        expect(await this.soldiersPresaleToken.totalSupply()).to.eq(getBigNumber(25000))
-        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(25000 - 100))
+        expect(await this.soldiersPresaleToken.totalSupply()).to.eq(getBigNumber(55000))
+        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(55000 - 100))
         expect(await this.soldiersPresaleToken.balanceOf(this.otherWallet.address)).to.eq(getBigNumber(100))
         expect(await this.soldiersPresaleToken.isPaused()).to.false
     })
 
     it('transfer when Paused', async function () {
-        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(25000))
+        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(55000))
         expect(await this.soldiersPresaleToken.isPaused()).to.false //Token is unpaused
         await expect(this.soldiersPresaleToken.pause()).to.emit(this.soldiersPresaleToken, 'Pause')
         expect(await this.soldiersPresaleToken.isPaused()).to.true //Token is paused
         await expect(this.soldiersPresaleToken.transfer(this.otherWallet.address, getBigNumber(25)))
                                                 .to.revertedWith('Token Paused')
-        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(25000))
+        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(55000))
         expect(await this.soldiersPresaleToken.balanceOf(this.otherWallet.address)).to.eq(getBigNumber(0))
     })
 
     it('Approve when unPaused', async function () {
-        expect(await this.soldiersPresaleToken.totalSupply()).to.eq(getBigNumber(25000))
-        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(25000))
+        expect(await this.soldiersPresaleToken.totalSupply()).to.eq(getBigNumber(55000))
+        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(55000))
         expect(await this.soldiersPresaleToken.isPaused()).to.false //Token is unpaused
 
         await expect(this.soldiersPresaleToken.approve(this.otherWallet.address, getBigNumber(75)))
@@ -119,8 +119,8 @@ describe('SoldiersPresaleToken', () => {
     })
 
     it('Approve when paused', async function () {
-        expect(await this.soldiersPresaleToken.totalSupply()).to.eq(getBigNumber(25000))
-        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(25000))
+        expect(await this.soldiersPresaleToken.totalSupply()).to.eq(getBigNumber(55000))
+        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(55000))
         
         await expect(this.soldiersPresaleToken.pause()).to.emit(this.soldiersPresaleToken, 'Pause')
         expect(await this.soldiersPresaleToken.isPaused()).to.true //Token is paused
@@ -129,8 +129,8 @@ describe('SoldiersPresaleToken', () => {
     })
 
     it('Allowance', async function () {
-        expect(await this.soldiersPresaleToken.totalSupply()).to.eq(getBigNumber(25000))
-        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(25000))
+        expect(await this.soldiersPresaleToken.totalSupply()).to.eq(getBigNumber(55000))
+        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(55000))
         expect(await this.soldiersPresaleToken.isPaused()).to.false //Token is unpaused
 
         await expect(this.soldiersPresaleToken.approve(this.otherWallet.address, getBigNumber(75)))
@@ -140,8 +140,8 @@ describe('SoldiersPresaleToken', () => {
     })
 
     it('transferFrom when unPaused', async function () {
-        expect(await this.soldiersPresaleToken.totalSupply()).to.eq(getBigNumber(25000))
-        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(25000))
+        expect(await this.soldiersPresaleToken.totalSupply()).to.eq(getBigNumber(55000))
+        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(55000))
         expect(await this.soldiersPresaleToken.isPaused()).to.false //Token is unpaused
 
         await expect(this.soldiersPresaleToken.approve(this.otherWallet.address, getBigNumber(75)))
@@ -153,12 +153,12 @@ describe('SoldiersPresaleToken', () => {
                                                 .to.emit(this.soldiersPresaleToken, 'Transfer')
                                                 .withArgs(this.wallet.address, this.otherWallet.address, getBigNumber(75))
         expect(await this.soldiersPresaleToken.balanceOf(this.otherWallet.address)).to.eq(getBigNumber(75))
-        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(25000 - 75))
+        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(55000 - 75))
     })
 
     it('transferFrom when paused', async function () {
-        expect(await this.soldiersPresaleToken.totalSupply()).to.eq(getBigNumber(25000))
-        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(25000))
+        expect(await this.soldiersPresaleToken.totalSupply()).to.eq(getBigNumber(55000))
+        expect(await this.soldiersPresaleToken.balanceOf(this.wallet.address)).to.eq(getBigNumber(55000))
         expect(await this.soldiersPresaleToken.isPaused()).to.false //Token is unpaused
 
         await expect(this.soldiersPresaleToken.approve(this.otherWallet.address, getBigNumber(75)))

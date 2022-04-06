@@ -16,7 +16,7 @@ async function main() {
   console.log("Network chain id=", chainid);
 
   const SoldiersPresaleToken = await ethers.getContractFactory("SoldiersPresaleToken");
-  const presaleSoldiers = await SoldiersPresaleToken.deploy(getBigNumber(25000));
+  const presaleSoldiers = await SoldiersPresaleToken.deploy(getBigNumber(55000));
   await presaleSoldiers.deployed();
   console.log("Soldiers Presale Token deployed to :", presaleSoldiers.address);
 
