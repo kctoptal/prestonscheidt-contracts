@@ -10,6 +10,7 @@
     "compile": "hh compile",
     "console": "hh console",
     "test": "hh test",
+    "testLive": "hh run scripts/SoldiersTest.ts --network",
     "deploy": "hh run scripts/deploy.ts --network",
     "prettier": "prettier --write test/**/*.{ts} && prettier --write contracts/**/*.sol",
     "lint": "yarn prettier && solhint -c .solhint.json contracts/**/*.sol",

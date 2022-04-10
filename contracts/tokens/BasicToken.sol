@@ -19,9 +19,7 @@ abstract contract BasicToken is IERC20 {
     * @param _value The amount of tokens to be spent.
     */
     function approve(address _spender, uint _value) public override virtual returns (bool) {
-        require(_spender != address(0), "Approve to the invalid or zero address");
-        allowance[msg.sender][_spender] = _value;
-        emit Approval(msg.sender, _spender, _value);
+        _approve(msg.sender, _spender, _value);
         return true;
     }
 
@@ -50,11 +48,18 @@ abstract contract BasicToken is IERC20 {
         allowance[_from][msg.sender] = allowance[_from][msg.sender].sub(_value);
         return true;
     }
-
+    /**
+    * Internal method that does Approve token from owner to spender
+    */
+    function _approve(address _owner, address _spender, uint _value) internal virtual {
+        require(_spender != address(0), "Approve to the invalid or zero address");
+        allowance[_owner][_spender] = _value;
+        emit Approval(_owner, _spender, _value);
+    }
    /**
     * Internal method that does transfer token from one account to another
     */
-    function _transfer(address _sender, address _recipient, uint _amount) internal {
+    function _transfer(address _sender, address _recipient, uint _amount) internal virtual {
         require(_sender != address(0), "Invalid Sender Address");
         require(_recipient != address(0), "Invalid Recipient Address");
         
@@ -74,7 +79,7 @@ abstract contract BasicToken is IERC20 {
     * @param _amount The amount of tokens to mint.
     * @return A boolean that indicates if the operation was successful.
     */
-    function _mint(address _to, uint _amount) internal returns (bool) {
+    function _mint(address _to, uint _amount) internal virtual returns (bool) {
         require(_to != address(0), "mint to the zero address");
         totalSupply = totalSupply.add(_amount);
         balanceOf[_to] = balanceOf[_to].add(_amount);
@@ -87,7 +92,7 @@ abstract contract BasicToken is IERC20 {
     * @param _holder The address from which tokens to be burned.
     * @param _value The amount of token to be burned.
     */
-    function _burn(address _holder, uint _value) internal returns (bool) {
+    function _burn(address _holder, uint _value) internal virtual returns (bool) {
         require(_holder != address(0), "Burn from the zero address");
         require(_value <= balanceOf[_holder], 'Burn amount exceeds balance of holder');
 

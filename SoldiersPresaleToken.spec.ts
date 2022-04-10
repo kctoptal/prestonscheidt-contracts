@@ -14,12 +14,15 @@ describe('SoldiersPresaleToken', () => {
         this.wallet = this.signers[0]
         this.otherWallet = this.signers[1]
         this.SoldiersPresaleToken = await ethers.getContractFactory("SoldiersPresaleToken");
+        this.BUSDToken = await ethers.getContractFactory("BUSDToken");
     })
 
     beforeEach(async function () {
-        this.soldiersPresaleToken = await this.SoldiersPresaleToken.deploy(getBigNumber(55000));
+        this.busd = await this.BUSDToken.deploy();
+        await this.busd.deployed();
+        this.soldiersPresaleToken = await this.SoldiersPresaleToken.deploy(getBigNumber(55000), 1649615400, this.busd.address, this.wallet.address);
         await this.soldiersPresaleToken.deployed();
-        await this.soldiersPresaleToken.mint(getBigNumber(55000))
+        //await this.soldiersPresaleToken.mint(getBigNumber(55000))
     })
 
     it('name', async function () {

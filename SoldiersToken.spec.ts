@@ -13,13 +13,21 @@ describe('SoldiersToken', () => {
         this.signers = await ethers.getSigners()
         this.wallet = this.signers[0]
         this.otherWallet = this.signers[1]
+        this.SoldiersPresaleToken = await ethers.getContractFactory("SoldiersPresaleToken");
+        this.BUSDToken = await ethers.getContractFactory("BUSDToken");
+        this.BarracksToken = await ethers.getContractFactory("BarracksToken");
         this.SoldiersToken = await ethers.getContractFactory("SoldiersToken");
     })
 
     beforeEach(async function () {
-        this.soldiersToken = await this.SoldiersToken.deploy(getBigNumber(80000));
+        this.busd = await this.BUSDToken.deploy();
+        await this.busd.deployed();
+        this.barracksToken = await this.BarracksToken.deploy();
+        await this.barracksToken.deployed();
+        this.soldiersPresaleToken = await this.SoldiersPresaleToken.deploy(getBigNumber(55000), 1649615400, this.busd.address, this.wallet.address);
+        await this.soldiersPresaleToken.deployed();
+        this.soldiersToken = await this.SoldiersToken.deploy(getBigNumber(80000), 1649615400, this.soldiersPresaleToken.address, this.busd.address, this.barracksToken.address, '0xD99D1c33F9fC3444f8101754aBC46c52416550D1', this.wallet.address);
         await this.soldiersToken.deployed();
-        await this.soldiersToken.mint(getBigNumber(80000))
     })
 
     it('name', async function () {
